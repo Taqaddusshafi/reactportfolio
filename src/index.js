@@ -1,17 +1,45 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React, { useState, useEffect } from 'react';
+import SplashScreen from "./PApp/SplashScreen";
+import PApp from './PApp/PApp';
+import DResume from './PApp/DResume';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+const App = () => {
+    const [isReady, setIsReady] = useState(false);
+  
+    useEffect(() => {
+      // Simulate an asynchronous initialization process
+      setTimeout(() => {
+        setIsReady(true);
+      }, 3000);
+    }, []);
+  
+    return (
+      <div>
+        {!isReady ? (
+          <SplashScreen />
+        ) : (
+            <PApp/>
+        )}
+      </div>
+    );
+  };
+  
+  export default App;
+  class Index extends React.Component{
+    render(){
+      return (
+        <>
+          <BrowserRouter>
+          <Routes>
+              <Route path="/" element={<App />}/>
+              <Route path="DResume" element={<DResume/>} />
+          </Routes>
+        </BrowserRouter>
+        </>
+      );
+  }
+  }
+  const root = ReactDOM.createRoot(document.getElementById('root'));
+  root.render(<Index />);
